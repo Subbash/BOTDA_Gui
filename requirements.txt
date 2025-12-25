@@ -1,0 +1,24 @@
+# BOTDA Sweep Control - Professional Edition
+# Required Python Packages
+
+# GUI Framework
+PySide6>=6.4.0
+
+# Scientific Computing
+numpy>=1.24.0
+scipy>=1.10.0
+
+# Data Processing
+pandas>=1.5.0
+
+# Visualization
+matplotlib>=3.7.0
+
+# Progress Bars
+tqdm>=4.65.0
+
+# Hardware Control (if not already installed)
+# windfreak  # For RF synthesizer control
+# pyadq      # For ADQ digitizer control
+
+# Note: windfreak and pyadq may require specific installation from vendors

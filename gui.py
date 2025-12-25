@@ -152,8 +152,18 @@ class PlotCanvas(FigureCanvas):
 class BotdaGui(QtWidgets.QMainWindow):
     def __init__(self) -> None:
         super().__init__()
-        self.setWindowTitle("BOTDA Sweep Control - Professional Edition")
-        self.resize(1500, 900)
+        self.setWindowTitle("DSS BOTDA - Developer Edition")
+
+        # Set application icon
+        icon_path = Path(__file__).parent / "dss_icon.ico"
+        if icon_path.exists():
+            self.setWindowIcon(QtGui.QIcon(str(icon_path)))
+
+        # Set minimum size to ensure usability on small screens
+        self.setMinimumSize(1024, 768)
+
+        # Start maximized for better screen adaptation
+        self.showMaximized()
 
         self._worker: Optional[SweepWorker] = None
         self._last_results: Optional[Dict[str, Any]] = None
@@ -279,6 +289,23 @@ class BotdaGui(QtWidgets.QMainWindow):
                     padding: 5px;
                     background-color: {bg_input};
                     color: {text_main};
+                    max-width: 450px;
+                }}
+                QSpinBox::up-button, QDoubleSpinBox::up-button {{
+                    width: 20px;
+                    height: 14px;
+                }}
+                QSpinBox::down-button, QDoubleSpinBox::down-button {{
+                    width: 20px;
+                    height: 14px;
+                }}
+                QSpinBox::up-arrow, QDoubleSpinBox::up-arrow {{
+                    width: 12px;
+                    height: 12px;
+                }}
+                QSpinBox::down-arrow, QDoubleSpinBox::down-arrow {{
+                    width: 12px;
+                    height: 12px;
                 }}
                 QTextEdit {{
                     border: 1px solid {border_color};
@@ -316,8 +343,47 @@ class BotdaGui(QtWidgets.QMainWindow):
                     background-color: #27ae60;
                     border-radius: 2px;
                 }}
+                QMessageBox {{
+                    background-color: {bg_widget};
+                    color: {text_main};
+                }}
+                QMessageBox QLabel {{
+                    color: {text_main};
+                }}
+                QMessageBox QPushButton {{
+                    background-color: {accent_color};
+                    color: {text_main};
+                    border: none;
+                    padding: 8px 16px;
+                    border-radius: 4px;
+                    font-weight: bold;
+                    min-width: 80px;
+                }}
+                QMessageBox QPushButton:hover {{
+                    background-color: {hover_color};
+                }}
+                QDialog {{
+                    background-color: {bg_widget};
+                    color: {text_main};
+                }}
+                QDialog QLabel {{
+                    color: {text_main};
+                }}
+                QListWidget {{
+                    background-color: {bg_input};
+                    color: {text_main};
+                    border: 1px solid {border_color};
+                }}
+                QListWidget::item:selected {{
+                    background-color: {accent_color};
+                    color: {text_main};
+                }}
+                QInputDialog {{
+                    background-color: {bg_widget};
+                    color: {text_main};
+                }}
             """)
-            
+
             # Dark menu bar styling
             self.menuBar().setStyleSheet(f"""
                 QMenuBar {{
@@ -360,6 +426,27 @@ class BotdaGui(QtWidgets.QMainWindow):
                     padding: 2px 10px;
                 }}
             """)
+
+            # Dark toolbar styling
+            if hasattr(self, 'toolbar'):
+                self.toolbar.setStyleSheet(f"""
+                    QToolBar {{
+                        background-color: {bg_widget};
+                        border-bottom: 2px solid {border_color};
+                        spacing: 10px;
+                        padding: 5px;
+                    }}
+                    QToolButton {{
+                        background-color: transparent;
+                        border: none;
+                        padding: 5px;
+                        color: {text_main};
+                    }}
+                    QToolButton:hover {{
+                        background-color: {hover_color};
+                        border-radius: 3px;
+                    }}
+                """)
             
         else:  # Light theme
             # Light theme colors
@@ -445,6 +532,23 @@ class BotdaGui(QtWidgets.QMainWindow):
                     padding: 5px;
                     background-color: {bg_input};
                     color: {text_main};
+                    max-width: 450px;
+                }}
+                QSpinBox::up-button, QDoubleSpinBox::up-button {{
+                    width: 20px;
+                    height: 14px;
+                }}
+                QSpinBox::down-button, QDoubleSpinBox::down-button {{
+                    width: 20px;
+                    height: 14px;
+                }}
+                QSpinBox::up-arrow, QDoubleSpinBox::up-arrow {{
+                    width: 12px;
+                    height: 12px;
+                }}
+                QSpinBox::down-arrow, QDoubleSpinBox::down-arrow {{
+                    width: 12px;
+                    height: 12px;
                 }}
                 QTextEdit {{
                     border: 1px solid #bdc3c7;
@@ -482,8 +586,47 @@ class BotdaGui(QtWidgets.QMainWindow):
                     background-color: #27ae60;
                     border-radius: 2px;
                 }}
+                QMessageBox {{
+                    background-color: {bg_widget};
+                    color: {text_main};
+                }}
+                QMessageBox QLabel {{
+                    color: {text_main};
+                }}
+                QMessageBox QPushButton {{
+                    background-color: {accent_color};
+                    color: white;
+                    border: none;
+                    padding: 8px 16px;
+                    border-radius: 4px;
+                    font-weight: bold;
+                    min-width: 80px;
+                }}
+                QMessageBox QPushButton:hover {{
+                    background-color: {hover_color};
+                }}
+                QDialog {{
+                    background-color: {bg_widget};
+                    color: {text_main};
+                }}
+                QDialog QLabel {{
+                    color: {text_main};
+                }}
+                QListWidget {{
+                    background-color: {bg_input};
+                    color: {text_main};
+                    border: 1px solid #bdc3c7;
+                }}
+                QListWidget::item:selected {{
+                    background-color: {accent_color};
+                    color: white;
+                }}
+                QInputDialog {{
+                    background-color: {bg_widget};
+                    color: {text_main};
+                }}
             """)
-            
+
             # Light menu bar styling
             self.menuBar().setStyleSheet(f"""
                 QMenuBar {{
@@ -526,6 +669,27 @@ class BotdaGui(QtWidgets.QMainWindow):
                     padding: 2px 10px;
                 }}
             """)
+
+            # Light toolbar styling
+            if hasattr(self, 'toolbar'):
+                self.toolbar.setStyleSheet(f"""
+                    QToolBar {{
+                        background-color: #ecf0f1;
+                        border-bottom: 2px solid #bdc3c7;
+                        spacing: 10px;
+                        padding: 5px;
+                    }}
+                    QToolButton {{
+                        background-color: transparent;
+                        border: none;
+                        padding: 5px;
+                        color: {text_main};
+                    }}
+                    QToolButton:hover {{
+                        background-color: #d5d8dc;
+                        border-radius: 3px;
+                    }}
+                """)
 
     def _create_menu_bar(self) -> None:
         """Create professional menu bar."""
@@ -641,45 +805,28 @@ class BotdaGui(QtWidgets.QMainWindow):
 
     def _create_toolbar(self) -> None:
         """Create toolbar with quick actions."""
-        toolbar = self.addToolBar("Main Toolbar")
-        toolbar.setMovable(False)
-        toolbar.setStyleSheet("""
-            QToolBar {
-                background-color: #ecf0f1;
-                border-bottom: 2px solid #bdc3c7;
-                spacing: 10px;
-                padding: 5px;
-            }
-            QToolButton {
-                background-color: transparent;
-                border: none;
-                padding: 5px;
-            }
-            QToolButton:hover {
-                background-color: #d5d8dc;
-                border-radius: 3px;
-            }
-        """)
+        self.toolbar = self.addToolBar("Main Toolbar")
+        self.toolbar.setMovable(False)
 
         # Quick actions
         run_action = QtGui.QAction("▶ Run", self)
         run_action.triggered.connect(self._run_sweep)
-        toolbar.addAction(run_action)
+        self.toolbar.addAction(run_action)
 
-        toolbar.addSeparator()
+        self.toolbar.addSeparator()
 
         save_action = QtGui.QAction("💾 Save", self)
         save_action.triggered.connect(self._save_data)
-        toolbar.addAction(save_action)
+        self.toolbar.addAction(save_action)
 
-        toolbar.addSeparator()
+        self.toolbar.addSeparator()
 
         # Preset selector
-        toolbar.addWidget(QtWidgets.QLabel("Preset:"))
+        self.toolbar.addWidget(QtWidgets.QLabel("Preset:"))
         self.preset_combo = QtWidgets.QComboBox()
         self.preset_combo.addItem("Default")
         self.preset_combo.currentTextChanged.connect(self._load_preset)
-        toolbar.addWidget(self.preset_combo)
+        self.toolbar.addWidget(self.preset_combo)
 
     def _create_status_bar(self) -> None:
         """Create informative status bar."""
@@ -1368,8 +1515,8 @@ class BotdaGui(QtWidgets.QMainWindow):
 
     def _show_documentation(self) -> None:
         doc_text = """
-        <h2>BOTDA Sweep Control - Documentation</h2>
-        
+        <h2>DSS BOTDA - Documentation</h2>
+
         <h3>Quick Start:</h3>
         <ol>
             <li>Configure RF and acquisition settings in the Configuration tab</li>
@@ -1377,15 +1524,16 @@ class BotdaGui(QtWidgets.QMainWindow):
             <li>Run the sweep</li>
             <li>Analyze results in Results & 2D Slice tabs</li>
         </ol>
-        
+
         <h3>Key Features:</h3>
         <ul>
             <li><b>Presets:</b> Save/load frequently used configurations</li>
             <li><b>Auto-fitting:</b> Automatic Lorentzian peak detection</li>
             <li><b>Slice Analysis:</b> Examine individual distance points</li>
             <li><b>Export:</b> Save data in multiple formats</li>
+            <li><b>Themes:</b> Switch between Light and Dark themes</li>
         </ul>
-        
+
         <h3>Keyboard Shortcuts:</h3>
         <ul>
             <li><b>Ctrl+N:</b> New Session</li>
@@ -1395,9 +1543,9 @@ class BotdaGui(QtWidgets.QMainWindow):
             <li><b>F1:</b> Help (this dialog)</li>
         </ul>
         """
-        
+
         msg = QtWidgets.QMessageBox(self)
-        msg.setWindowTitle("Documentation")
+        msg.setWindowTitle("DSS BOTDA - Documentation")
         msg.setTextFormat(QtCore.Qt.RichText)
         msg.setText(doc_text)
         msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
@@ -1405,13 +1553,13 @@ class BotdaGui(QtWidgets.QMainWindow):
 
     def _show_about(self) -> None:
         about_text = f"""
-        <h2>BOTDA Sweep Control</h2>
-        <p><b>Version:</b> 2.0 Professional Edition</p>
+        <h2>DSS BOTDA - Developer Edition</h2>
+        <p><b>Version:</b> 2.0 Developer Edition</p>
         <p><b>Date:</b> {datetime.now().strftime('%Y-%m-%d')}</p>
-        
-        <p>Professional BOTDA (Brillouin Optical Time Domain Analysis) 
-        measurement and analysis software.</p>
-        
+
+        <p>Distributed Sensor System (DSS) for BOTDA (Brillouin Optical Time Domain Analysis)
+        measurement and analysis.</p>
+
         <p><b>Features:</b></p>
         <ul>
             <li>Automated RF frequency sweeping</li>
@@ -1419,13 +1567,14 @@ class BotdaGui(QtWidgets.QMainWindow):
             <li>Lorentzian peak fitting</li>
             <li>3D visualization</li>
             <li>Comprehensive logging</li>
+            <li>Light/Dark theme support</li>
         </ul>
-        
-        <p><b>Developed for advanced fiber optic sensing applications.</b></p>
+
+        <p><b>Developed for advanced distributed fiber optic sensing applications.</b></p>
         """
-        
+
         msg = QtWidgets.QMessageBox(self)
-        msg.setWindowTitle("About BOTDA Sweep Control")
+        msg.setWindowTitle("About DSS BOTDA")
         msg.setTextFormat(QtCore.Qt.RichText)
         msg.setText(about_text)
         msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
@@ -1486,8 +1635,14 @@ class BotdaGui(QtWidgets.QMainWindow):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
-    app.setApplicationName("BOTDA Sweep Control")
-    app.setOrganizationName("BOTDA Research")
+    app.setApplicationName("DSS BOTDA - Developer Edition")
+    app.setOrganizationName("DSS Research")
+
+    # Set application icon for taskbar
+    icon_path = Path(__file__).parent / "dss_icon.ico"
+    if icon_path.exists():
+        app.setWindowIcon(QtGui.QIcon(str(icon_path)))
+
     window = BotdaGui()
-    window.show()
+    # Window already maximized in __init__, no need to call show() separately
     app.exec()
